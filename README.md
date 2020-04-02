@@ -1,7 +1,7 @@
 # Local
 ## Obten la información que necesitas de los locales cerca a ti
 
-[📄 Artículo](https://www.notion.so/Video-0-Intro-1397fbd9e3424efbb557247d062b8d3f#20dbe9d8b3ae442893e1ef959b84fdac)
+[📄 Artículo](https://www.notion.so/Video-0-Intro-1397fbd9e3424efbb557247d062b8d3f)
 [📺 Video](https://www.youtube.com/channel/UCLdBO2AVbCohANbEtEHn1CA)
 
 Local es un proyecto creado para enseñar como crear un producto con la mentalidad de comercializarlo y volverlo algo que se pueda usar en el día a día.
