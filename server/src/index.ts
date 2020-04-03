@@ -1,6 +1,6 @@
 import express, { Request, Response } from 'express';
 import mongoose from 'mongoose';
-import User from './models/users.model';
+import User, { IUser } from './models/users.model';
 
 const app = express();
 
@@ -30,9 +30,21 @@ app.use(express.urlencoded({ extended: true }));
 
     app.post('/users', async (req: Request, res: Response) => {
         const data = req.body;
-        const user = new User(data);
+        const user: IUser = new User({ email: data.email });
+        user.setPassword(data.password);
         await user.save();
         res.json(user);
+    });
+
+    app.post('/login', async (req: Request, res: Response) => {
+        const { email, password } = req.body;
+        const user: IUser = await User.findOne({ 'email': email }).exec();
+        const valid = user.validPassword(password);
+        if (valid) {
+            return res.send('Contraseña valida!')
+        } else {
+            return res.send('Contraseña incorrecta');
+        }
     });
 
 
