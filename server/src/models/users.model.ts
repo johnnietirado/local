@@ -1,7 +1,7 @@
 import mongoose, { Document } from 'mongoose';
 import bcrypt from 'bcrypt';
 
-const saltRounds = 100;
+const saltRounds = 10;
 
 // Aquí empezamos a ver el poder de mongoose
 export interface IUser extends Document {
@@ -22,6 +22,7 @@ const UserSchema = new mongoose.Schema<IUser>({
 
 UserSchema.method('setPassword', async function (this: IUser, unhashedPw: string) {
     this.password = await bcrypt.hash(unhashedPw, saltRounds);
+    return;
 });
 
 UserSchema.method('validPassword', async function (this: IUser, pw: string) {

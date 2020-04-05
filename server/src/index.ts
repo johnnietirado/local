@@ -1,5 +1,6 @@
 import express, { Request, Response } from 'express';
 import mongoose from 'mongoose';
+import cors from 'cors';
 import User, { IUser } from './models/users.model';
 
 const app = express();
@@ -15,6 +16,7 @@ const connectToDb = async () => {
     }
 }
 
+app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
@@ -29,21 +31,31 @@ app.use(express.urlencoded({ extended: true }));
     });
 
     app.post('/users', async (req: Request, res: Response) => {
-        const data = req.body;
-        const user: IUser = new User({ email: data.email });
-        user.setPassword(data.password);
-        await user.save();
-        res.json(user);
+        try {
+            const data = req.body;
+            const user: IUser = new User(data);
+            await user.setPassword(data.password);
+            await user.save();
+            res.json(user);
+        } catch (err) {
+            res.status(500);
+            res.send(err.message);
+        }
     });
 
     app.post('/login', async (req: Request, res: Response) => {
-        const { email, password } = req.body;
-        const user: IUser = await User.findOne({ 'email': email }).exec();
-        const valid = user.validPassword(password);
-        if (valid) {
-            return res.send('Contraseña valida!')
-        } else {
-            return res.send('Contraseña incorrecta');
+        try {
+            const { email, password } = req.body;
+            const user: IUser = await User.findOne({ 'email': email }).exec();
+            const valid = await user.validPassword(password);
+            if (valid) {
+                return res.send('Contraseña valida!')
+            } else {
+                return res.send('Contraseña incorrecta');
+            }
+        } catch (err) {
+            res.status(500);
+            res.send(err.message);
         }
     });
 
