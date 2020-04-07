@@ -1,5 +1,6 @@
 import express, { Request, Response } from 'express';
 import mongoose from 'mongoose';
+import cors from 'cors';
 import User, { IUser } from './models/users.model';
 
 const app = express();
@@ -15,6 +16,7 @@ const connectToDb = async () => {
     }
 }
 
+app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
