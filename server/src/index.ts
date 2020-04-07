@@ -41,7 +41,7 @@ app.use(express.urlencoded({ extended: true }));
     app.post('/login', async (req: Request, res: Response) => {
         const { email, password } = req.body;
         const user: IUser = await User.findOne({ 'email': email }).exec();
-        const valid = user.validPassword(password);
+        const valid = await user.validPassword(password);
         if (valid) {
             return res.send('Contraseña valida!')
         } else {
