@@ -47,6 +47,7 @@ app.use(express.urlencoded({ extended: true }));
         try {
             const { email, password } = req.body;
             const user: IUser = await User.findOne({ 'email': email }).exec();
+            if(!user) res.sendStatus(404);
             const valid = await user.validPassword(password);
             if (valid) {
                 return res.send('Contraseña valida!')
